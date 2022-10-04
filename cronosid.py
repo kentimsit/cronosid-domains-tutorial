@@ -10,6 +10,26 @@ w3 = Web3(Web3.HTTPProvider("https://evm.cronos.org"))
 # ********************************************************************************
 #
 
+# The following is a small utility to determine if an address
+# is a smart contract address on the Cronos chain, as opposed to EOA (externally owned account).
+# This is important because, while the owner of a EOA address controls the private keys
+# of this address on every EVM chain (and therefore, the domain <> address mapping is valid on every chain),
+# a smart contract may not exist at the same address on every chain.
+# For example, multi signature smart contracts usually exist on one chain only,
+# and if funds are sent to the wrong chain, the funds are lost forever.
+
+def is_smart_contract_address(address):
+    code = w3.eth.get_code(Web3.toChecksumAddress(address)).hex()
+    print(code)
+    if code == '0x':
+        return False
+    else:
+        return True
+
+#
+# ********************************************************************************
+#
+
 # The following function is a utility which computes the 'node' corresponding
 # to a defined domain, as defined in  https://eips.ethereum.org/EIPS/eip-137.
 # The node is a hash associated with a domain, calculated according to EIP137 specifications.
@@ -197,6 +217,11 @@ if __name__ == '__main__':
     print("\n\nNow, let's find the owner of domain", domain_without_cro + ".cro")
     owner = forward_resolution(domain_without_cro)
     print("The owner of", domain_without_cro + ".cro", "is", owner)
+    print("\nLet's check if this is a EOA address or a smart contract address")
+    if is_smart_contract_address(owner):
+        print("This is a smart contract address. Beware as it may not exist on every EVM chain.")
+    else:
+        print("This is a EOA address on Cronos chain, its owner controls the same address on every EVM chain.")
     print("\n\nNow we are going to reverse resolve the domain address of wallet", owner)
     reverse_resolved_domain = reverse_resolution(owner)
     print("The domain returned by the reverse resolution is",
