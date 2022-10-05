@@ -1,31 +1,27 @@
-# cronosid-domains-tutorial
+# Cronos ID Domains Tutorial
 
-Basic tutorial on how to interact with the Cronod ID domains protocol using Python
+Basic tutorial on how to interact with the Cronod ID domains protocol using Node (Typescript).
 
 # Get started
 
 Requirements:
 
-- Python
-- Poetry package manager
+- Node v16+
 
-To run the cronosid.py demo script:
+To run the demo script:
 
 ```
 # Install dependencies
-poetry install
-
-# Launch Python shell
-poetry shell
+npm install
 
 # Execute the script
-python cronosid.py
+npx ts-node index.ts
 
 ```
 
 # What is happening
 
-The cronosid.py script demonstrates the main ways that you may want to interact with the Cronod ID domains protocol:
+The demo script demonstrates the main ways that you may want to interact with the Cronod ID domains protocol:
 
 - First, the script listens to the events emitted by the minting smart contract in order to find out what are some of the new domain names that have been minted within a specific block range on the Cronos mainnet chain.
 - Then, the script takes an arbitrary domain name (web3developer.cro) and completes forward resolution, meaning that it queries the Cronos ID domain registry in order to determine the wallet address who is the owner of this domain.
